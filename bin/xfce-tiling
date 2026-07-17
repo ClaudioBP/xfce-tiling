@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# Lanzador de xfce-tiling. Funciona tanto ejecutado desde el repo
+# (bin/../src) como instalado (bin/../lib/xfce-tiling).
+set -euo pipefail
+
+here="$(cd "$(dirname "$(readlink -f "$0")")" && pwd)"
+
+for candidate in \
+    "$here/../src" \
+    "$here/../lib/xfce-tiling" ; do
+    if [ -d "$candidate/xfce_tiling" ]; then
+        export PYTHONPATH="$candidate${PYTHONPATH:+:$PYTHONPATH}"
+        break
+    fi
+done
+
+exec python3 -m xfce_tiling "$@"

@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=XFCE Tiling
+Comment=Menú de zonas de tiling al pasar el cursor sobre el botón maximizar (y atajo global Super+Z)
+Exec=xfce-tiling daemon
+Icon=preferences-system-windows
+Terminal=false
+Categories=Utility;
+X-XFCE-Autostart-enabled=true
+StartupNotify=false
