@@ -18,13 +18,15 @@ The zone set is chosen per monitor (the one containing the window):
 - Left / right / top / bottom half
 - Top-left / top-right / bottom-left / bottom-right quarter
 
-**Monitors above 1080p** (45 zones): all of the above **+** thirds,
+**Monitors above 1080p** (49 zones): all of the above **+** thirds,
 sixths and ninths, including double combinations
 - Left / middle vertical / right third
 - Top / middle horizontal / bottom third
 - Sixths (3×2 grid): top and bottom × left/center/right
 - Ninths (3×3 grid): top left/center/right, middle left/center/right,
   bottom left/center/right
+- Two thirds in columns (2/3 × 1): left+center / center+right
+- Two thirds in rows (1 × 2/3): top+center / center+bottom
 - Two sixths (2/3 × 1/2 blocks): left/right × top/bottom
 - Two horizontal ninths (2/3 × 1/3): left+center / center+right × row
 - Two vertical ninths (1/3 × 2/3): top+center / center+bottom × column
@@ -87,7 +89,7 @@ For all other CSD apps (Electron, VS Code, Spotify…) use the global
 
 | Module | Responsibility |
 |--------|----------------|
-| `layouts.py` | Definition of the 8 / 45 zones as fractions of the work area. |
+| `layouts.py` | Definition of the 8 / 49 zones as fractions of the work area. |
 | `wm.py` | libwnck: active window / window under cursor, frame extents (incl. `_GTK_FRAME_EXTENTS`), apply zone, monitor + workarea via Gdk. |
 | `button_detect.py` | Computes the maximize button rectangle by reading xfwm4's `button_layout` and the theme's button widths; virtual zones for known CSD apps. |
 | `popup.py` | Popup window with the thumbnails of each zone (Cairo) and the click logic. |

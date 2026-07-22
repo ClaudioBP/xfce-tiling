@@ -18,13 +18,15 @@ El juego de zonas se decide por el monitor donde está la ventana:
 - Mitad izquierda / derecha / superior / inferior
 - Cuarto superior-izq / superior-der / inferior-izq / inferior-der
 
-**Monitor mayor a 1080p** (45 zonas): lo anterior **+** tercios, sextos
+**Monitor mayor a 1080p** (49 zonas): lo anterior **+** tercios, sextos
 y novenos, incluidas las combinaciones dobles
 - Tercio izquierdo / medio vertical / derecho
 - Tercio superior / medio horizontal / medio inferior
 - Sextos (rejilla 3×2): superior e inferior × izq/central/der
 - Novenos (rejilla 3×3): superior izq/central/der, izq-central/central/der-central,
   inferior izq/central/der
+- Dos tercios en columnas (2/3 × 1): izquierda+centro / centro+derecha
+- Dos tercios en filas (1 × 2/3): arriba+centro / centro+abajo
 - Dos sextos (bloques de 2/3 × 1/2): izquierdo/derecho × superior/inferior
 - Dos novenos horizontales (2/3 × 1/3): izq+central / central+der × fila
 - Dos novenos verticales (1/3 × 2/3): sup+central / central+inf × columna
@@ -86,7 +88,7 @@ global `Super+Z`, que cubre todas.
 
 | Módulo | Responsabilidad |
 |--------|-----------------|
-| `layouts.py` | Definición de las 8 / 45 zonas como fracciones del área de trabajo. |
+| `layouts.py` | Definición de las 8 / 49 zonas como fracciones del área de trabajo. |
 | `wm.py` | libwnck: ventana activa/bajo el cursor, extents del marco (incl. `_GTK_FRAME_EXTENTS`), aplicar zona, monitor + workarea por Gdk. |
 | `button_detect.py` | Calcula el rectángulo del botón maximizar leyendo `button_layout` de xfwm4 y los anchos de los botones del tema; zonas virtuales para apps CSD conocidas. |
 | `popup.py` | Ventana emergente con las miniaturas de cada zona (Cairo) y la lógica de clic. |

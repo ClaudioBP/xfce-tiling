@@ -6,8 +6,8 @@ Cada zona se describe con una fracción del área de trabajo del monitor
 Regla de resolución (según la especificación del usuario):
 
   * Monitor "hasta 1080p"  -> solo mitades y cuartos (8 zonas).
-  * Monitor "mayor a 1080p" -> además tercios, sextos y novenos
-    (21 zonas extra).
+  * Monitor "mayor a 1080p" -> además tercios, sextos y novenos,
+    incluidas las combinaciones dobles (41 zonas extra).
 
 Se considera "mayor a 1080p" cualquier monitor cuya geometría supere
 1920x1080 (por ancho o por alto). Así un panel 1920x1080 usa el juego
@@ -57,7 +57,7 @@ _BASE: list[Zone] = [
     Zone("br_quarter",    "Cuarto inferior derecho",   "base", 1 / 2, 1 / 2, 1 / 2, 1 / 2),
 ]
 
-# --- Juego extra: tercios, sextos y novenos (2.1 .. 2.21) ----------------
+# --- Juego extra: tercios, sextos y novenos (2.1 .. 2.41) ----------------
 
 _EXTRA: list[Zone] = [
     # Tercios verticales (columnas)
@@ -85,6 +85,12 @@ _EXTRA: list[Zone] = [
     Zone("ninth_bl",      "Noveno izquierdo inferior", "extra", 0,     2 / 3, 1 / 3, 1 / 3),
     Zone("ninth_bc",      "Noveno central inferior",   "extra", 1 / 3, 2 / 3, 1 / 3, 1 / 3),
     Zone("ninth_br",      "Noveno derecho inferior",   "extra", 2 / 3, 2 / 3, 1 / 3, 1 / 3),
+    # Dos tercios: pares de columnas completas (izquierda+centro, centro+derecha)
+    Zone("two_third_l",   "Dos tercios izquierdo y central", "extra", 0,     0,     2 / 3, 1),
+    Zone("two_third_r",   "Dos tercios central y derecho",   "extra", 1 / 3, 0,     2 / 3, 1),
+    # Dos tercios: pares de filas completas (arriba+centro, centro+abajo)
+    Zone("two_third_t",   "Dos tercios superior y central",  "extra", 0,     0,     1, 2 / 3),
+    Zone("two_third_b",   "Dos tercios central e inferior",  "extra", 0,     1 / 3, 1, 2 / 3),
     # Dos sextos: pares horizontales dentro de la rejilla 3x2
     Zone("two_sixth_tl",  "Dos sextos izquierdo superior", "extra", 0,     0,     2 / 3, 1 / 2),
     Zone("two_sixth_tr",  "Dos sextos derecho superior",   "extra", 1 / 3, 0,     2 / 3, 1 / 2),

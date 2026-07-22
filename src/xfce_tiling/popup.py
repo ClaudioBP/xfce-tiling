@@ -78,13 +78,15 @@ class TilingPopup(Gtk.Window):
                 extra[15:18],  # novenos fila central
                 extra[18:21],  # novenos fila inferior
             ]))
-            columns.append(self._section("Dos sextos y dos novenos", [
-                extra[21:23],  # dos sextos fila superior
-                extra[23:25],  # dos sextos fila inferior
-                extra[25:28],  # dos novenos horizontales, mitad izquierda
-                extra[28:31],  # dos novenos horizontales, mitad derecha
-                extra[31:34],  # dos novenos verticales, mitad superior
-                extra[34:37],  # dos novenos verticales, mitad inferior
+            columns.append(self._section("Dos tercios, dos sextos y dos novenos", [
+                extra[21:23],  # dos tercios (columnas dobles)
+                extra[23:25],  # dos tercios (filas dobles)
+                extra[25:27],  # dos sextos fila superior
+                extra[27:29],  # dos sextos fila inferior
+                extra[29:32],  # dos novenos horizontales, mitad izquierda
+                extra[32:35],  # dos novenos horizontales, mitad derecha
+                extra[35:38],  # dos novenos verticales, mitad superior
+                extra[38:41],  # dos novenos verticales, mitad inferior
             ]))
 
         for i, col in enumerate(columns):
