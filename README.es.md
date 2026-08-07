@@ -103,3 +103,7 @@ sin huecos y respetando los paneles del panel de XFCE.
 Por defecto es `<Super>z`. Para otro, edita `DEFAULT_HOTKEY` en
 `daemon.py` (sintaxis de acelerador GTK, p. ej. `<Super><Shift>z`) y
 reinicia el demonio (`pkill -f xfce_tiling; xfce-tiling daemon &`).
+
+## Historial de versiones
+
+Ver [CHANGELOG.md](CHANGELOG.md).

@@ -104,3 +104,7 @@ respecting XFCE panels.
 The default is `<Super>z`. For another one, edit `DEFAULT_HOTKEY` in
 `daemon.py` (GTK accelerator syntax, e.g. `<Super><Shift>z`) and restart
 the daemon (`pkill -f xfce_tiling; xfce-tiling daemon &`).
+
+## Version history
+
+See [CHANGELOG.md](CHANGELOG.md).
