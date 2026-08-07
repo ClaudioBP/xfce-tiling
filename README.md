@@ -82,6 +82,15 @@ that table.
 Firefox) is also compensated so the visible part of the window fills the
 zone exactly, with no gaps.
 
+Apps that declare **resize increments** in `WM_NORMAL_HINTS` — terminals
+(xfce4-terminal, xterm, urxvt), Emacs — only accept client sizes of
+`base + n × increment` pixels, so an exact zone size gets rounded *down*
+and leaves a strip of desktop showing inside the zone (up to 9 px on the
+right and 18 px at the bottom with xfce4-terminal's default font). The
+requested size is rounded *up* to the next accepted size instead, so the
+window covers its whole zone; the leftover few pixels overlap the
+neighbouring zone to the right and below.
+
 For all other CSD apps (Electron, VS Code, Spotify…) use the global
 `Super+Z` hotkey, which covers everything.
 
@@ -91,6 +100,7 @@ For all other CSD apps (Electron, VS Code, Spotify…) use the global
 |--------|----------------|
 | `layouts.py` | Definition of the 8 / 49 zones as fractions of the work area. |
 | `wm.py` | libwnck: active window / window under cursor, frame extents (incl. `_GTK_FRAME_EXTENTS`), apply zone, monitor + workarea via Gdk. |
+| `sizehints.py` | Xlib via `ctypes`: `WM_NORMAL_HINTS` resize increments, `_NET_FRAME_EXTENTS` / `_GTK_FRAME_EXTENTS` and the real frame rectangle, all read straight from the X server (libwnck's cache lags right after an unmaximize). |
 | `button_detect.py` | Computes the maximize button rectangle by reading xfwm4's `button_layout` and the theme's button widths; virtual zones for known CSD apps. |
 | `popup.py` | Popup window with the thumbnails of each zone (Cairo) and the click logic. |
 | `daemon.py` | Pointer polling loop (hover) + global hotkey via Keybinder. |

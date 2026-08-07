@@ -81,6 +81,15 @@ Además se compensa `_GTK_FRAME_EXTENTS` (la sombra invisible de las
 apps GTK/CSD como Firefox) para que la parte visible de la ventana llene
 la zona exacta, sin huecos.
 
+Las apps que declaran **incrementos de redimensión** en `WM_NORMAL_HINTS`
+—terminales (xfce4-terminal, xterm, urxvt), Emacs— solo aceptan tamaños de
+cliente de `base + n × incremento` píxeles, así que el tamaño exacto de la
+zona se redondea *hacia abajo* y queda una franja de escritorio a la vista
+dentro de la zona (hasta 9 px a la derecha y 18 abajo con la fuente por
+defecto de xfce4-terminal). En su lugar se pide el siguiente tamaño válido
+*hacia arriba*, de modo que la ventana cubre su zona entera; los pocos
+píxeles sobrantes se solapan con la zona vecina de la derecha y de abajo.
+
 Para el resto de apps CSD (Electron, VS Code, Spotify…) usa el atajo
 global `Super+Z`, que cubre todas.
 
@@ -90,6 +99,7 @@ global `Super+Z`, que cubre todas.
 |--------|-----------------|
 | `layouts.py` | Definición de las 8 / 49 zonas como fracciones del área de trabajo. |
 | `wm.py` | libwnck: ventana activa/bajo el cursor, extents del marco (incl. `_GTK_FRAME_EXTENTS`), aplicar zona, monitor + workarea por Gdk. |
+| `sizehints.py` | Xlib con `ctypes`: incrementos de `WM_NORMAL_HINTS`, `_NET_FRAME_EXTENTS` / `_GTK_FRAME_EXTENTS` y el rectángulo real del marco, leídos directamente del servidor X (la caché de libwnck va obsoleta justo tras desmaximizar). |
 | `button_detect.py` | Calcula el rectángulo del botón maximizar leyendo `button_layout` de xfwm4 y los anchos de los botones del tema; zonas virtuales para apps CSD conocidas. |
 | `popup.py` | Ventana emergente con las miniaturas de cada zona (Cairo) y la lógica de clic. |
 | `daemon.py` | Bucle de sondeo del puntero (hover) + atajo global con Keybinder. |
