@@ -42,7 +42,12 @@ install -m 0755 "$src_dir/bin/xfce-tiling" "$BINDIR/xfce-tiling"
 
 echo ">> Instalando autostart en $AUTOSTART"
 mkdir -p "$AUTOSTART"
-install -m 0644 "$src_dir/data/xfce-tiling.desktop" "$AUTOSTART/xfce-tiling.desktop"
+# Exec= debe llevar ruta absoluta: el generador XDG de autostart no hereda
+# el PATH de la shell, así que $BINDIR (p.ej. ~/.local/bin) no está en él y
+# la entrada se descarta con "Exec binary does not exist".
+sed "s|^Exec=xfce-tiling |Exec=$BINDIR/xfce-tiling |" \
+    "$src_dir/data/xfce-tiling.desktop" > "$AUTOSTART/xfce-tiling.desktop"
+chmod 0644 "$AUTOSTART/xfce-tiling.desktop"
 
 case ":$PATH:" in
     *":$BINDIR:"*) : ;;
