@@ -86,9 +86,9 @@ Las apps que declaran **incrementos de redimensión** en `WM_NORMAL_HINTS`
 cliente de `base + n × incremento` píxeles, así que el tamaño exacto de la
 zona se redondea *hacia abajo* y queda una franja de escritorio a la vista
 dentro de la zona (hasta 9 px a la derecha y 18 abajo con la fuente por
-defecto de xfce4-terminal). En su lugar se pide el siguiente tamaño válido
-*hacia arriba*, de modo que la ventana cubre su zona entera; los pocos
-píxeles sobrantes se solapan con la zona vecina de la derecha y de abajo.
+defecto de xfce4-terminal). Se pide el mayor tamaño válido que entre en la
+zona y la ventana se centra en ella, de modo que los pocos píxeles sobrantes
+se reparten entre ambos lados sin invadir las zonas vecinas.
 
 Para el resto de apps CSD (Electron, VS Code, Spotify…) usa el atajo
 global `Super+Z`, que cubre todas.
@@ -107,6 +107,12 @@ global `Super+Z`, que cubre todas.
 Colocación exacta: con gravedad `STATIC`, `Wnck.set_geometry` recibe el
 rectángulo **exterior** del marco, de modo que las zonas quedan pegadas
 sin huecos y respetando los paneles del panel de XFCE.
+
+## Pruebas
+
+```bash
+PYTHONPATH=src python3 -m unittest discover -s tests -v
+```
 
 ## Cambiar el atajo
 

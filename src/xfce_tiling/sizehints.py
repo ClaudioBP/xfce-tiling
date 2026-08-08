@@ -125,25 +125,64 @@ class SizeHints:
     max_w: int | None
     max_h: int | None
 
-    def snap_up(self, width: int, height: int) -> tuple[int, int]:
-        """Menor tamaño aceptado que cubra (width, height)."""
+    def fit_frame(
+        self,
+        width: int,
+        height: int,
+        extents: tuple[int, int, int, int],
+    ) -> tuple[int, int, int, int]:
+        """Mayor marco aceptado dentro de ``width × height``, centrado.
+
+        Devuelve ``(dx, dy, frame_w, frame_h)``. Los desplazamientos reparten
+        el espacio que no alcanza para otra celda; si sobra un píxel impar,
+        queda del lado derecho o inferior.
+        """
+        left, right, top, bottom = extents
+        client_w = _snap_down(
+            width - left - right,
+            self.base_w,
+            self.inc_w,
+            self.min_w,
+            self.max_w,
+        )
+        client_h = _snap_down(
+            height - top - bottom,
+            self.base_h,
+            self.inc_h,
+            self.min_h,
+            self.max_h,
+        )
+        frame_w = client_w + left + right
+        frame_h = client_h + top + bottom
         return (
-            _snap_up(width, self.base_w, self.inc_w, self.min_w, self.max_w),
-            _snap_up(height, self.base_h, self.inc_h, self.min_h, self.max_h),
+            (width - frame_w) // 2,
+            (height - frame_h) // 2,
+            frame_w,
+            frame_h,
         )
 
+def _snap_down(value: int, base: int, inc: int, minimum: int, maximum: int | None) -> int:
+    """Mayor tamaño de la rejilla que no exceda ``value``.
 
-def _snap_up(value: int, base: int, inc: int, minimum: int, maximum: int | None) -> int:
+    Si el mínimo declarado ya excede ``value``, devuelve el primer tamaño de
+    la rejilla que satisface el mínimo: no existe un tamaño válido que quepa y
+    respetar los hints de la aplicación tiene prioridad.
+    """
     if inc <= 1:
-        return value
-    steps = -(-(value - base) // inc)  # ceil, también con (value - base) < 0
-    size = base + max(steps, 0) * inc
+        size = value
+        if size < minimum:
+            size = minimum
+        if maximum is not None:
+            size = min(size, maximum)
+        return size
+
+    upper = min(value, maximum) if maximum is not None else value
+    steps = max((upper - base) // inc, 0)
+    size = base + steps * inc
     if size < minimum:
-        # min_size puede no caer en la rejilla; subir al primer paso que lo alcance.
         steps = -(-(minimum - base) // inc)
         size = base + max(steps, 0) * inc
     if maximum is not None and size > maximum:
-        # No hay forma de cubrir la zona: quedarse en el mayor tamaño posible.
         steps = (maximum - base) // inc
         size = base + max(steps, 0) * inc
     return size

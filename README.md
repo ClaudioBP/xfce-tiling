@@ -87,9 +87,9 @@ Apps that declare **resize increments** in `WM_NORMAL_HINTS` — terminals
 `base + n × increment` pixels, so an exact zone size gets rounded *down*
 and leaves a strip of desktop showing inside the zone (up to 9 px on the
 right and 18 px at the bottom with xfce4-terminal's default font). The
-requested size is rounded *up* to the next accepted size instead, so the
-window covers its whole zone; the leftover few pixels overlap the
-neighbouring zone to the right and below.
+largest accepted size that fits is requested and the window is centered
+inside the zone, so the leftover few pixels are shared between both sides
+without overlapping neighbouring zones.
 
 For all other CSD apps (Electron, VS Code, Spotify…) use the global
 `Super+Z` hotkey, which covers everything.
@@ -108,6 +108,12 @@ For all other CSD apps (Electron, VS Code, Spotify…) use the global
 Exact placement: with `STATIC` gravity, `Wnck.set_geometry` receives the
 **outer** frame rectangle, so zones fit together with no gaps while
 respecting XFCE panels.
+
+## Tests
+
+```bash
+PYTHONPATH=src python3 -m unittest discover -s tests -v
+```
 
 ## Changing the hotkey
 

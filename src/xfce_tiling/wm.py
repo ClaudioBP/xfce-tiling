@@ -139,8 +139,13 @@ def _settled_frame_extents(xid: int, stale: tuple[int, int, int, int] | None):
         time.sleep(_SETTLE_POLL_S)
 
 
-def _cover_zone(xid: int, w: int, h: int, extents: tuple[int, int, int, int]) -> tuple[int, int]:
-    """Agranda (w, h) hasta el primer tamaño de marco que la ventana acepte.
+def _fit_zone(
+    xid: int,
+    w: int,
+    h: int,
+    extents: tuple[int, int, int, int],
+) -> tuple[int, int, int, int]:
+    """Ajusta y centra el marco en ``w × h`` si usa tamaños cuantizados.
 
     Las apps con incrementos de redimensión (xfce4-terminal, xterm, Emacs...)
     solo admiten un cliente de ``base + n * incremento`` píxeles. Si se les
@@ -148,16 +153,14 @@ def _cover_zone(xid: int, w: int, h: int, extents: tuple[int, int, int, int]) ->
     ``incremento - 1`` píxeles de escritorio a la vista dentro de la zona
     (con la fuente por defecto de xfce4-terminal: 9 px a la derecha y 18 abajo).
 
-    Se redondea hacia arriba para que la ventana cubra la zona entera; el
-    sobrante invade unos píxeles la zona vecina de la derecha y de abajo.
+    Se elige el mayor tamaño aceptado que no excede la zona y se reparte el
+    espacio restante a ambos lados para centrar la ventana.
     Las ventanas sin incrementos —la inmensa mayoría— salen intactas.
     """
     hints = sizehints.size_hints(xid)
     if hints is None:
-        return w, h
-    left, right, top, bottom = extents
-    client_w, client_h = hints.snap_up(w - left - right, h - top - bottom)
-    return client_w + left + right, client_h + top + bottom
+        return 0, 0, w, h
+    return hints.fit_frame(w, h, extents)
 
 
 # Dos repasos: el primero llega a tiempo para el desfase de xfwm4 y el
@@ -177,7 +180,7 @@ def _target_rect(
     zone: tuple[int, int, int, int],
     extents: tuple[int, int, int, int],
 ) -> tuple[int, int, int, int]:
-    """Marco exterior a pedir para que la ventana cubra `zone`."""
+    """Marco exterior exacto o, si es cuantizado, centrado dentro de `zone`."""
     x, y, w, h = zone
     # Compensar la sombra invisible de las apps CSD (GTK frame extents).
     gl, gr, gt, gb = resting_gtk_frame_extents(win)
@@ -185,7 +188,9 @@ def _target_rect(
     y -= gt
     w += gl + gr
     h += gt + gb
-    w, h = _cover_zone(win.get_xid(), w, h, extents)
+    dx, dy, w, h = _fit_zone(win.get_xid(), w, h, extents)
+    x += dx
+    y += dy
     return int(x), int(y), int(w), int(h)
 
 

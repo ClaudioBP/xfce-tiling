@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Windows whose sizes are constrained to `WM_NORMAL_HINTS` increments now use
+  the largest accepted size that fits inside the selected zone and are centered
+  in it. This replaces the previous round-up behaviour, so terminals, Emacs and
+  similar applications no longer overlap neighbouring zones.
+
 ## [1.1.2] - 2026-08-07
 
 ### Fixed
