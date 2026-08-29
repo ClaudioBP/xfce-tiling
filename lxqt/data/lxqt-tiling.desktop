@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=LXQt Tiling
+Comment=Menú de zonas de tiling al pasar el cursor sobre el botón maximizar (y atajo global Super+Z)
+Exec=lxqt-tiling daemon
+Icon=preferences-system-windows
+Terminal=false
+Categories=Utility;
+StartupNotify=false

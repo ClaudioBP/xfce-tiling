@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# Lanzador de lxqt-tiling. Funciona tanto ejecutado desde el repo
+# (bin/../src) como instalado (bin/../lib/lxqt-tiling).
+set -euo pipefail
+
+here="$(cd "$(dirname "$(readlink -f "$0")")" && pwd)"
+
+for candidate in \
+    "$here/../src" \
+    "$here/../lib/lxqt-tiling" ; do
+    if [ -d "$candidate/lxqt_tiling" ]; then
+        export PYTHONPATH="$candidate${PYTHONPATH:+:$PYTHONPATH}"
+        break
+    fi
+done
+
+exec python3 -m lxqt_tiling "$@"
