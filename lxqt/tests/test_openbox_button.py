@@ -53,8 +53,20 @@ class RightGroupTests(unittest.TestCase):
         self.assertEqual(y, 84)
         self.assertEqual((w, h), (20, 20))
 
+    def test_m_after_label_stays_in_right_group(self):
+        # I queda a la izquierda de L; M y C se empaquetan desde la derecha.
+        cfg = OpenboxConfig(
+            title_layout="ILMC",
+            theme="Clearlooks",
+            theme_geometry=_clearlooks_cfg().theme_geometry,
+        )
+        self.assertEqual(
+            maximize_button_rect(*_FRAME, _EXTENTS, cfg),
+            (951, 84, 20, 20),
+        )
+
     def test_right_group_counts_only_present_buttons(self):
-        # Layout NLCIM: el grupo derecho es "IM" -> M es el más a la derecha.
+        # Layout NLCIM: el grupo derecho es "CIM" -> M es el más a la derecha.
         cfg = OpenboxConfig(
             title_layout="NLCIM",
             theme="Clearlooks",
@@ -66,9 +78,9 @@ class RightGroupTests(unittest.TestCase):
 
 class LeftGroupTests(unittest.TestCase):
     def test_m_before_label_is_packed_from_left(self):
-        # Layout ILMC: M en el grupo izquierdo, tras I.
+        # Layout IMLC: M en el grupo izquierdo, tras I.
         cfg = OpenboxConfig(
-            title_layout="ILMC",
+            title_layout="IMLC",
             theme="Clearlooks",
             theme_geometry=_clearlooks_cfg().theme_geometry,
         )

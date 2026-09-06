@@ -26,8 +26,8 @@ class TargetRectTests(unittest.TestCase):
             max_h=None,
         )
 
-    @patch("xfce_tiling.wm.resting_gtk_frame_extents", return_value=(0, 0, 0, 0))
-    @patch("xfce_tiling.wm.sizehints.size_hints")
+    @patch("lxqt_tiling.wm.resting_gtk_frame_extents", return_value=(0, 0, 0, 0))
+    @patch("lxqt_tiling.wm.sizehints.size_hints")
     def test_quantized_target_is_smaller_and_centered(
         self, mock_size_hints, _mock_gtk_extents
     ):
@@ -41,8 +41,8 @@ class TargetRectTests(unittest.TestCase):
 
         self.assertEqual(rect, (101, 52, 957, 1049))
 
-    @patch("xfce_tiling.wm.resting_gtk_frame_extents", return_value=(8, 12, 10, 14))
-    @patch("xfce_tiling.wm.sizehints.size_hints", return_value=None)
+    @patch("lxqt_tiling.wm.resting_gtk_frame_extents", return_value=(8, 12, 10, 14))
+    @patch("lxqt_tiling.wm.sizehints.size_hints", return_value=None)
     def test_unquantized_target_keeps_exact_visible_zone(
         self, _mock_size_hints, _mock_gtk_extents
     ):
