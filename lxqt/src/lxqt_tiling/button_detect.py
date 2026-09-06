@@ -35,6 +35,7 @@ _CSD_APPS: dict[str, tuple[int, int, int]] = {
     "firefox-esr":   (40, 60, 40),
     "google-chrome": (40, 60, 40),
     "chromium":      (40, 60, 40),
+    "chatgpt":       (40, 60, 40),  # Codex desktop: WM_CLASS = Chatgpt
 }
 
 # Configuración de openbox cacheada; se puede refrescar si cambia rc.xml.
